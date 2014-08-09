@@ -20,17 +20,37 @@
     };
 
     Hand.prototype.hit = function() {
-      this.add(this.deck.pop()).last();
-      if (this.bust) {
-        alert('Play Again?');
+      var dealerScore, playerScore;
+      if (!this.bust) {
+        this.add(this.deck.pop()).last();
+        playerScore = Number($(".player-hand-container").find(".score").text());
+        dealerScore = Number($(".dealer-hand-container").find(".score").text());
+        if (playerScore > 21) {
+          $("h2:first").append("<text style='color:red'> YOU BUSTED </text>");
+        }
+        if (dealerScore > 21) {
+          return $("h2:first").append("<text style='color:red'> DEALER BUSTS. YOU WIN! </text>");
+        }
       }
-      console.log(this.deck);
-      return this.model.set(this.deck, new Deck);
     };
 
     Hand.prototype.stand = function() {
+      var dealerScore, playerScore;
       this.models[0].flip();
-      return this.dealer();
+      this.dealer();
+      playerScore = Number($(".player-hand-container").find(".score").text());
+      dealerScore = Number($(".dealer-hand-container").find(".score").text());
+      if (!this.bust) {
+        if (playerScore === dealerScore) {
+          return $("h2:first").append("<text style='color:red'> PUSSHSHHHHSHSHHSHS </text>");
+        } else if (playerScore > dealerScore) {
+          return $("h2:first").append("<text style='color:red'> PLAYA PLAYA  </text>");
+        } else {
+          if (dealerScore > playerScore) {
+            return $("h2:first").append("<text style='color:red'> DEALER WINS BITCH </text>");
+          }
+        }
+      }
     };
 
     Hand.prototype.scores = function() {
@@ -42,7 +62,7 @@
         return score + (card.get('revealed') ? card.get('value') : 0);
       }, 0);
       if (score > 21) {
-        this.bust = !this.bust;
+        this.bust = true;
       }
       if (hasAce && score + 10 <= 21) {
         return score + 10;

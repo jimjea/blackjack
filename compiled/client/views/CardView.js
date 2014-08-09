@@ -12,7 +12,7 @@
 
     CardView.prototype.className = 'card';
 
-    CardView.prototype.template = _.template('<%= rankName %> of <%= suitName %>');
+    CardView.prototype.templateUp = _.template('<% if (this.model.get("revealed")) { %> <img style = "max-width:100%; max-height:100%;" src = "img/cards/<%= rankName %>-<%= suitName %>.png" /> <% } else { %> <img style = "max-width:100%; max-height:100%;" src = "img/card-back.png" /> <% } %>');
 
     CardView.prototype.initialize = function() {
       this.model.on('change', (function(_this) {
@@ -25,7 +25,7 @@
 
     CardView.prototype.render = function() {
       this.$el.children().detach().end().html;
-      this.$el.html(this.template(this.model.attributes));
+      this.$el.html(this.templateUp(this.model.attributes));
       if (!this.model.get('revealed')) {
         return this.$el.addClass('covered');
       }

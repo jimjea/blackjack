@@ -14,7 +14,21 @@
       var deck;
       this.set('deck', deck = new Deck());
       this.set('playerHand', deck.dealPlayer());
-      return this.set('dealerHand', deck.dealDealer());
+      this.set('dealerHand', deck.dealDealer());
+      this.get("playerHand").on("reset", this.startOver, this);
+      return this.get("dealerHand").on("reset", this.startOver, this);
+    };
+
+    App.prototype.startOver = function() {
+      var deck;
+      this.set('deck', deck = new Deck());
+      this.set('playerHand', deck.dealPlayer());
+      this.set('dealerHand', deck.dealDealer());
+      this.trigger('reset', this);
+      $("body").html("");
+      return new AppView({
+        model: new App()
+      }).$el.appendTo('body');
     };
 
     return App;

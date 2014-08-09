@@ -14,3 +14,13 @@
 .hand {
   overflow: auto;
 }
+
+body {
+  background-image:url('http://www.planethollywoodresort.com/content/dam/phv/Dining/Upscale/koi/Planet-Hollywood-Resort-&-Casino-Dining-Upscale-Koi-1.jpg');
+  background-size: cover;
+}
+
+h2 {
+  font-family: sans-serif;
+  color: white;
+}
